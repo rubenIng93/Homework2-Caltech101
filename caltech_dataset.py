@@ -6,6 +6,8 @@ import os
 import os.path
 import sys
 
+import numpy as np
+
 
 def pil_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
@@ -29,6 +31,19 @@ class Caltech(VisionDataset):
           through the index
         - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
         '''
+        
+        
+        split_path = str('Caltech101/'+split+'.txt') # define the split path; in this case
+                                                     # it can be only Caltech101/train.txt or Caltech101/test.txt
+        
+        # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
+        
+          
+        
+    
+        
+        
+        
 
     def __getitem__(self, index):
         '''
