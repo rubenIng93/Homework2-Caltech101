@@ -58,6 +58,7 @@ class Caltech(VisionDataset):
         self.dataset = images
         self.labels = img_lab
         self.class_to_index = class_to_idx
+        self.count = count
     
         
         
@@ -101,5 +102,5 @@ class Caltech(VisionDataset):
         The __len__ method returns the length of the dataset
         It is mandatory, as this is used by several other components
         '''
-        length = len(self.dataset.keys())
-        return length
+        
+        return self.count
