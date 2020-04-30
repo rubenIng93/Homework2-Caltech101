@@ -39,7 +39,8 @@ class Caltech(VisionDataset):
         # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
         
         classes, class_to_idx = self._find_classes(self.root)
-          
+         
+            
         # Loading the split path exploiting Numpy
         split_array = np.loadtxt(split_path, dtype=str)
         
@@ -51,7 +52,7 @@ class Caltech(VisionDataset):
                 
                 
         self.dataset = images
-        
+        self.class_to_index = class_to_idx
     
         
         
@@ -77,7 +78,8 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image, label = self.dataset[index]
+        image = self.dataset.keys()[index]
+        label = self.dataset[image]
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
