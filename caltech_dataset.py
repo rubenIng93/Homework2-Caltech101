@@ -42,14 +42,14 @@ class Caltech(VisionDataset):
          
             
         # Loading the split path exploiting Numpy
-        split_array = set(np.loadtxt(split_path, dtype=str))
+        split_array = np.loadtxt(split_path, dtype=str)
         
         count = 0
-        images={} #dictionary k=index, v= image
+        images = {} #dictionary k=index, v= image
         img_lab = {} # dictionary k=index v=label
         for image in split_array:
-            if image.split('/')[0] in classes:# filter that removes BACKGROUND 
-                rgb = pil_loader(root+'/'+image)
+            if image.split('/')[0].find('BACKGROUND') < 0:# filter that removes BACKGROUND 
+                rgb = pil_loader('/'+root+'/'+image) # e.g. Caltech101/101_ObjectCategories/accordion/image_0002.jpg
                 images[count] = rgb
                 img_lab[count] = image.split('/')[0]
                 count += 1
