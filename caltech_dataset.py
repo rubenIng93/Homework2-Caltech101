@@ -68,6 +68,8 @@ class Caltech(VisionDataset):
         classes.sort()
         class_to_idx = {cls_name: i for i, cls_name in enumerate(classes)}
         # class_to_idx is a dictionary where key= class_name , value= class_index
+        for c in classes:
+            print(c)
         return classes, class_to_idx
     
     
