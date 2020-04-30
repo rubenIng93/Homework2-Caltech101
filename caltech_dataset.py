@@ -60,7 +60,7 @@ class Caltech(VisionDataset):
     def _find_classes(self, dir):
         # It find the class folder in the dataset
         
-        classes = [d.name for d in os.scandir(dir) is d.is_dir() and d.name.find('BACKGROUND') < 0] # It removes the background folder
+        classes = [d.name for d in os.scandir(dir) if d.is_dir() and d.name.find('BACKGROUND') < 0] # It removes the background folder
         classes.sort()
         class_to_idx = {cls_name: i for i, cls_name in enumerate(classes)}
         # class_to_idx is a dictionary where key= class_name , value= class_index
