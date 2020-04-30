@@ -38,8 +38,10 @@ class Caltech(VisionDataset):
         
         # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
         
-        classes, class_to_idx = self._find_classes(self.root)
-         
+        #classes, class_to_idx = self._find_classes(self.root)
+        classes = [d.name for d in os.scandir(dir) if d.is_dir() and d.name.find('BACKGROUND') < 0] # It removes the background folder
+        classes.sort()
+        class_to_idx = {cls_name: i for i, cls_name in enumerate(classes)} 
             
         # Loading the split path exploiting Numpy
         split_array = np.loadtxt(split_path, dtype=str)
