@@ -42,7 +42,7 @@ class Caltech(VisionDataset):
          
             
         # Loading the split path exploiting Numpy
-        split_array = np.loadtxt(split_path, dtype=str)
+        split_array = set(np.loadtxt(split_path, dtype=str))
         
         count = 0
         images={} #dictionary k=index, v= image
@@ -68,8 +68,7 @@ class Caltech(VisionDataset):
         classes.sort()
         class_to_idx = {cls_name: i for i, cls_name in enumerate(classes)}
         # class_to_idx is a dictionary where key= class_name , value= class_index
-        for c in classes:
-            print(c)
+        
         return classes, class_to_idx
     
     
@@ -85,7 +84,7 @@ class Caltech(VisionDataset):
         '''
 
         image = self.dataset[index]
-        label = self.labels[index
+        label = self.labels[index]
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
