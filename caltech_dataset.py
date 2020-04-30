@@ -40,10 +40,12 @@ class Caltech(VisionDataset):
         
         classes, class_to_idx = self._find_classes(self.root)
          
+        split_array=[]
+        with open(split_path, 'r') as f:
+            split_array = f.readlines()
             
-        # Loading the split path exploiting Numpy
-        split_array = np.loadtxt(split_path, dtype=str)
-        print(split_array)
+        f.close()
+        
         count = 0
         images = {} #dictionary k=index, v= image
         img_lab = {} # dictionary k=index v=label
