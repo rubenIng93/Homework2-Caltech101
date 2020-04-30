@@ -49,6 +49,7 @@ class Caltech(VisionDataset):
         img_lab = {} # dictionary k=index v=label
         for image in split_array:
             if image.split('/')[0].find('BACKGROUND') < 0:# filter that removes BACKGROUND 
+                print(image)
                 rgb = pil_loader('/'+root+'/'+image) # e.g. Caltech101/101_ObjectCategories/accordion/image_0002.jpg
                 images[count] = rgb
                 img_lab[count] = image.split('/')[0]
