@@ -38,12 +38,34 @@ class Caltech(VisionDataset):
         
         # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
         
+        classes, class_to_idx = self._find_classes(self.root)
           
+        # Loading the split path exploiting Numpy
+        split_array = np.loadtxt(split_path, dtype=str)
+        
+        images={}
+        for image in split_array:
+            if image.split('/')[0] in classes:# filter that removes BACKGROUND 
+                rgb = pil_loader(root+'/'+image)
+                images[rgb] = class_to_idx[image.split('/')[0]]
+                
+                
+        self.dataset = images
         
     
         
         
+    
+    def _find_classes(self, dir):
+        # It find the class folder in the dataset
         
+        classes = [d.name for d in os.scandir(dir) is d.is_dir() and d.name.find('BACKGROUND') < 0] # It removes the background folder
+        classes.sort()
+        class_to_idx = {cls_name: i for i, cls_name in enumerate(classes)}
+        # class_to_idx is a dictionary where key= class_name , value= class_index
+        return classes, class_to_idx
+    
+    
 
     def __getitem__(self, index):
         '''
@@ -55,7 +77,8 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image, label = ... # Provide a way to access image and label via index
+        image, label = self.dataset[index]
+        # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
 
@@ -70,5 +93,5 @@ class Caltech(VisionDataset):
         The __len__ method returns the length of the dataset
         It is mandatory, as this is used by several other components
         '''
-        length = ... # Provide a way to get the length (number of elements) of the dataset
+        length = len(self.dataset.keys())
         return length
