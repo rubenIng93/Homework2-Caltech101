@@ -44,14 +44,18 @@ class Caltech(VisionDataset):
         # Loading the split path exploiting Numpy
         split_array = np.loadtxt(split_path, dtype=str)
         
-        images={}
+        count = 0
+        images={} #dictionary k=index, v= image
+        img_lab = {} # dictionary k=index v=label
         for image in split_array:
             if image.split('/')[0] in classes:# filter that removes BACKGROUND 
                 rgb = pil_loader(root+'/'+image)
-                images[rgb] = class_to_idx[image.split('/')[0]]
-                
+                images[count] = rgb
+                img_lab[count] = image.split('/')[0]
+                count += 1
                 
         self.dataset = images
+        self.labels = img_lab
         self.class_to_index = class_to_idx
     
         
@@ -78,8 +82,8 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image = self.dataset.keys()[index]
-        label = self.dataset[image]
+        image = self.dataset[index]
+        label = self.labels[index
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
