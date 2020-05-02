@@ -7,6 +7,8 @@ import os.path
 import sys
 
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import StratifiedShuffleSplit
 
 
 def pil_loader(path):
@@ -38,7 +40,7 @@ class Caltech(VisionDataset):
         
         # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
         
-        classes, class_to_idx = self._find_classes(self.root)
+        #classes, class_to_idx = self._find_classes(self.root)
          
         split_array=[]
         with open(split_path, 'r') as f:
@@ -56,14 +58,28 @@ class Caltech(VisionDataset):
                 img_lab[count] = image.split('/')[0]
                 count += 1
                 
+        df = pd.DataFrame({'img':list(images.values()), 'label':list(img_lab.values())})
+        
         self.dataset = images
         self.labels = img_lab
-        self.class_to_index = class_to_idx
-        self.count = count
-    
+        #self.class_to_index = class_to_idx
+        #self.count = count
+        self.dataframe = df
         
         
-    
+    def train_val_split(self, train_size):
+
+        train, val = [], []
+        sss = StratifiedShuffleSplit(n_splits=1, train_size=train_size)
+        for train_idx, val_idx in sss.split(self.dataframe['img'], self.dataframe['label']):
+            train.append(train_idx)
+            val.append(val_idx)
+        
+        return train_idx, val_idx
+
+    def get_df(self):
+        return self.dataframe    
+    '''
     def _find_classes(self, dir):
         # It find the class folder in the dataset
         
@@ -73,7 +89,7 @@ class Caltech(VisionDataset):
         # class_to_idx is a dictionary where key= class_name , value= class_index
         
         return classes, class_to_idx
-    
+    '''
     
 
     def __getitem__(self, index):
@@ -86,8 +102,8 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image = self.dataset[index]
-        label = self.labels[index]
+        image = self.dataframe.loc[index, 'img']
+        label = self..dataframe.loc[index, 'label']
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
@@ -104,4 +120,4 @@ class Caltech(VisionDataset):
         It is mandatory, as this is used by several other components
         '''
         
-        return self.count
+        return len(self.dataframe['img'])
