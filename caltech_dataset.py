@@ -40,7 +40,7 @@ class Caltech(VisionDataset):
         
         # N.B: in in both txt files and 101Folder, BACKGROUND images are present -> avoid to select them!
         
-        #classes, class_to_idx = self._find_classes(self.root)
+        classes, class_to_idx = self._find_classes(self.root)
          
         split_array=[]
         with open(split_path, 'r') as f:
@@ -62,7 +62,7 @@ class Caltech(VisionDataset):
         
         self.dataset = images
         self.labels = img_lab
-        #self.class_to_index = class_to_idx
+        self.class_to_index = class_to_idx
         #self.count = count
         self.dataframe = df
         
@@ -79,7 +79,7 @@ class Caltech(VisionDataset):
 
     def get_df(self):
         return self.dataframe    
-    '''
+    
     def _find_classes(self, dir):
         # It find the class folder in the dataset
         
@@ -89,7 +89,7 @@ class Caltech(VisionDataset):
         # class_to_idx is a dictionary where key= class_name , value= class_index
         
         return classes, class_to_idx
-    '''
+    
     
 
     def __getitem__(self, index):
@@ -103,7 +103,7 @@ class Caltech(VisionDataset):
         '''
 
         image = self.dataframe.loc[index, 'img']
-        label = self.dataframe.loc[index, 'label']
+        label = self.class_to_index[self.dataframe.loc[index, 'label']]
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
