@@ -103,7 +103,7 @@ class Caltech(VisionDataset):
         '''
 
         image = self.dataframe.loc[index, 'img']
-        label = self..dataframe.loc[index, 'label']
+        label = self.dataframe.loc[index, 'label']
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
