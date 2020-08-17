@@ -65,6 +65,8 @@ class Caltech(VisionDataset):
         self.class_to_index = class_to_idx
         #self.count = count
         self.dataframe = df
+        self.images = df['img']
+        self.labels = df['label']
         
         
     def train_val_split(self, train_size):
@@ -104,8 +106,10 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image = self.dataframe.loc[index, 'img']
-        label = self.class_to_index[self.dataframe.loc[index, 'label']]
+        image = self.images[index]
+        label = self.labels[index]
+        #image = self.dataframe.loc[index, 'img']
+        #label = self.class_to_index[self.dataframe.loc[index, 'label']]
         # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
