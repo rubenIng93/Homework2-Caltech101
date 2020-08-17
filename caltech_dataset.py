@@ -48,18 +48,18 @@ class Caltech(VisionDataset):
             
         f.close()
         
-        self.count = 0
+        count = 0
         images = {} #dictionary k=index, v= image
         img_lab = {} # dictionary k=index v=label
         for image in split_array:
             if image.split('/')[0].find('BACKGROUND') < 0:# filter that removes BACKGROUND 
                 rgb = pil_loader(root+'/'+image.strip()) # e.g. Caltech101/101_ObjectCategories/accordion/image_0002.jpg
-                images[self.count] = rgb
-                img_lab[self.count] = image.split('/')[0]
-                self.count += 1
+                images[count] = rgb
+                img_lab[count] = image.split('/')[0]
+                count += 1
                 
         df = pd.DataFrame({'img':list(images.values()), 'label':list(img_lab.values())})
-        
+        print(count)
         self.dataset = images
         self.labels = img_lab
         self.class_to_index = class_to_idx
@@ -80,8 +80,6 @@ class Caltech(VisionDataset):
     def get_df(self):
         return self.dataframe 
     
-    def reset_count(self):
-        self.count = 0
     
     def _find_classes(self, dir):
         # It find the class folder in the dataset
