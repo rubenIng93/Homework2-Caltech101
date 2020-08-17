@@ -75,8 +75,8 @@ class Caltech(VisionDataset):
             train.append(train_idx)
             val.append(val_idx)
         
-        # return train_idx, val_idx
-        return train, val
+        return train_idx, val_idx
+        
 
     def get_df(self):
         return self.dataframe 
