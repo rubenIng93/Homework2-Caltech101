@@ -48,40 +48,48 @@ class Caltech(VisionDataset):
             
         f.close()
         
+        images = [] # img list
+        labels = [] # labels list
+        
         count = 0
-        images = {} #dictionary k=index, v= image
-        img_lab = {} # dictionary k=index v=label
+        #images = {} #dictionary k=index, v= image
+        #img_lab = {} # dictionary k=index v=label
         for image in split_array:
             if image.split('/')[0].find('BACKGROUND') < 0:# filter that removes BACKGROUND 
                 rgb = pil_loader(root+'/'+image.strip()) # e.g. Caltech101/101_ObjectCategories/accordion/image_0002.jpg
-                images[count] = rgb
-                img_lab[count] = image.split('/')[0]
-                count += 1
+                #images[count] = rgb
+                images.append(rbg)
+                labels.append(image.split('/')[0])
+                # img_lab[count] = image.split('/')[0]
+                #count += 1
                 
-        df = pd.DataFrame({'img':list(images.values()), 'label':list(img_lab.values())})
-        print(count)
+        #df = pd.DataFrame({'img':list(images.values()), 'label':list(img_lab.values())})
+        #print(count)
         self.dataset = images
-        self.labels = img_lab
+        #self.labels = img_lab
+        self.labels = labels
         self.class_to_index = class_to_idx
         #self.count = count
-        self.dataframe = df
-        self.images = df['img']
-        self.labels = df['label']
+        #self.dataframe = df
+        #self.images = df['img']
+        #self.labels = df['label']
         
         
     def train_val_split(self, train_size):
 
         train, val = [], []
         sss = StratifiedShuffleSplit(n_splits=1, train_size=train_size)
-        for train_idx, val_idx in sss.split(self.dataframe['img'], self.dataframe['label']):
+        for train_idx, val_idx in sss.split(self.images, self.labels]):
             train.append(train_idx)
             val.append(val_idx)
         
         return train_idx, val_idx
         
-
-    def get_df(self):
-        return self.dataframe 
+    def get_class_int(self, class_name):
+        
+        return self.class_to_idx[class_name]
+    #def get_df(self):
+     #   return self.dataframe 
     
     
     def _find_classes(self, dir):
@@ -126,4 +134,4 @@ class Caltech(VisionDataset):
         It is mandatory, as this is used by several other components
         '''
         
-        return len(self.dataframe['img'])
+        return len(self.images)
