@@ -58,7 +58,7 @@ class Caltech(VisionDataset):
             if image.split('/')[0].find('BACKGROUND') < 0:# filter that removes BACKGROUND 
                 rgb = pil_loader(root+'/'+image.strip()) # e.g. Caltech101/101_ObjectCategories/accordion/image_0002.jpg
                 #images[count] = rgb
-                images.append(rbg)
+                images.append(rgb)
                 labels.append(image.split('/')[0])
                 # img_lab[count] = image.split('/')[0]
                 #count += 1
@@ -115,7 +115,7 @@ class Caltech(VisionDataset):
         '''
 
         image = self.images[index]
-        label = self.labels[index]
+        label = self.class_to_index[self.labels[index]]
         #image = self.dataframe.loc[index, 'img']
         #label = self.class_to_index[self.dataframe.loc[index, 'label']]
         # Provide a way to access image and label via index
