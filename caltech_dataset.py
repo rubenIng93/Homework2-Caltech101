@@ -65,7 +65,7 @@ class Caltech(VisionDataset):
                 
         #df = pd.DataFrame({'img':list(images.values()), 'label':list(img_lab.values())})
         #print(count)
-        self.dataset = images
+        self.images = images
         #self.labels = img_lab
         self.labels = labels
         self.class_to_index = class_to_idx
@@ -79,7 +79,7 @@ class Caltech(VisionDataset):
 
         train, val = [], []
         sss = StratifiedShuffleSplit(n_splits=1, train_size=train_size)
-        for train_idx, val_idx in sss.split(self.images, self.labels]):
+        for train_idx, val_idx in sss.split(self.images, self.labels):
             train.append(train_idx)
             val.append(val_idx)
         
